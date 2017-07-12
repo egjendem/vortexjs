@@ -1,2 +1,2 @@
-# vortexjs
-Vortex.js - Javascript Extended DOM
+# Vortex.js
+Javascript Extended DOM
