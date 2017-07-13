@@ -21,23 +21,8 @@ Documentation will be available on Github later on.
         }
     }
 
-    window.vx = function(x) {
-        var element = window.vortex.elements.find(function(e) {
-            return e.element == window.document.getElementById(x)
-        })
-
-        if (element) {
-            return element
-        }
-
-        return (element) ? element : window.vortex.addAndReturnElement(new Vortex(window.document.getElementById(x)))
-    }
-
-    function Vortex(x) {
-        this.element = x
-    }
-
     window.vortex.__proto__ = Vortex.prototype
+
     Vortex.prototype.returnMyElement = function() {
         return this.element
     }
@@ -55,6 +40,27 @@ Documentation will be available on Github later on.
     }
     Vortex.prototype.class = function(value) {
         this.element.className = value
+    }
+
+    function Vortex(x) {
+        this.element = x
+    }
+
+    window.vx = function(x) {
+        var element = window.vortex.elements.find(function(e) {
+            return e.element == window.document.getElementById(x)
+        }) || window.document.getElementById(x)
+
+        if (element instanceof Vortex) {
+            return element
+        } else if (element) {
+            return window.vortex.addAndReturnElement(new Vortex(element))
+        }
+
+        element = window.document.createElement('div')
+        element.setAttribute('id', x)
+
+        return window.vortex.addAndReturnElement(new Vortex(element))
     }
 
 })(window)
